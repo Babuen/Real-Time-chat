@@ -1,0 +1,61 @@
+.userinfo{
+    padding:20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+    .user{
+     display: flex;
+     align-items: center;
+     gap:20px;
+    } 
+
+     img{
+        width:50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit:cover ;
+        
+     }
+     .avatar{
+        border: 3px solid #5183fe;
+  transition: transform 0.3s ease;
+    }
+ 
+
+.imgs{
+   margin-left: 40px;
+    display: flex;
+    height: 15px;
+    width: 15px;
+    gap:25px;
+    cursor :pointer;
+}
+
+.actionIcons {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* space between icons */
+}
+
+.icon {
+  width: 28px;           /* slightly larger for better visibility */
+  height: 28px;
+  object-fit: contain;    /* keep the original aspect ratio without stretching */
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.2);  /* subtle pop effect */
+  opacity: 0.85;           /* slight fade effect */
+}
+
+
+.icon3{
+      width: 28px;           /* slightly larger for better visibility */
+  height: 28px;
+  object-fit: cover;    /* keep the original aspect ratio without stretching */
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
