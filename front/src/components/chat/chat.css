@@ -1,0 +1,200 @@
+.chat {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  height: 100%;
+  background: rgba(17, 25, 40, 0.5);
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Top bar ===== */
+.chat .top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.chat .user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.chat .user img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+
+}
+
+
+.chat .user .texts span {
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.chat .user .texts p {
+  font-size: 13px;
+  font-weight: 300;
+  color: #a5a5a5;
+}
+
+.chat .icons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.chat .icons img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.chat .icons img:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+/* ===== Chat messages ===== */
+.chat .center {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.chat .message,
+.chat .messageown {
+  display: flex;
+  gap: 10px;
+  max-width: 70%;
+}
+
+.chat .message img,
+.chat .messageown img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* received */
+.chat .message {
+  align-self: flex-start;
+}
+
+.chat .message p {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.chat .message span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 3px;
+}
+.chat .message span,
+.chat .messageown span {
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+  align-self: flex-end; /* keeps it aligned at bottom */
+}
+
+/* sent */
+.chat .messageown {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat .messageown p {
+  background: #25d366; /* WhatsApp green */
+  color: black;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family:'Cascadia Code, JetBrains Mono, and Fira Code';
+}
+
+/* ===== Bottom bar ===== */
+.chat .bottom {
+  border-top: 1px solid #dddddd35;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(17, 25, 40, 0.6);
+}
+
+/* Text Input */
+.chat .bottom input {
+  flex: 1; /* take up most width */
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 15px;
+  transition: background 0.3s ease;
+}
+
+.chat .bottom input:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Emoji Icon */
+.chat .bottom img {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.chat .bottom img:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+/* Send Button */
+.chat .bottom button {
+    width: 70px;
+  padding: 8px 14px; /* smaller button */
+  border-radius: 20px;
+  border: none;
+  background-color: #5183fe;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.chat .bottom button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.chat .bottom button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

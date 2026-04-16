@@ -1,0 +1,236 @@
+.userinfo{
+    padding:20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  position: relative;
+  z-index: 20;
+}
+    .user{
+     display: flex;
+     align-items: center;
+     gap:20px;
+    } 
+
+     img{
+        width:50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit:cover ;
+        object-position: center;
+        
+     }
+     .avatar{
+        border: 3px solid #5183fe;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    }
+ 
+
+.imgs{
+   margin-left: 40px;
+    display: flex;
+    height: auto;
+    width: auto;
+    align-items: center;
+    gap:25px;
+    cursor :pointer;
+  position: relative;
+}
+
+.actionIcons {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* space between icons */
+}
+
+.icon {
+  width: 28px;           /* slightly larger for better visibility */
+  height: 28px;
+  object-fit: contain;    /* keep the original aspect ratio without stretching */
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.icon:hover {
+  transform: scale(1.2);  /* subtle pop effect */
+  opacity: 0.85;           /* slight fade effect */
+}
+
+
+.icon3{
+      width: 28px;           /* slightly larger for better visibility */
+  height: 28px;
+  object-fit: cover;    /* keep the original aspect ratio without stretching */
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.statusWrap {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #25d366;
+  border-right-color: #8dffb4;
+  border-top-color: #1f9f53;
+  box-shadow: 0 0 8px rgba(37, 211, 102, 0.45);
+}
+
+.statusCenter {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #25d366;
+  background: rgba(37, 211, 102, 0.22);
+}
+
+.statusWrap::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #25d366;
+  border: 2px solid #0f1f3a;
+}
+
+.menuPanel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(240px, 86vw);
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 12px;
+  border-radius: 10px;
+  background: #0f1f3a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 30;
+}
+
+@media (max-width: 768px) {
+  .imgs {
+    margin-left: 14px;
+    gap: 14px;
+  }
+
+  .menuPanel {
+    right: -6px;
+    width: min(220px, 84vw);
+  }
+}
+
+.menuPanel label {
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.menuPanel input,
+.menuPanel button {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.menuPanel textarea {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: #e2e8f0;
+  color: #0f172a;
+  min-height: 72px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.menuPanel input[type="file"] {
+  background: transparent;
+  color: #cbd5e1;
+  padding: 4px 0;
+}
+
+.menuPanel input {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.menuPanel button {
+  background: #3b82f6;
+  color: #fff;
+  cursor: pointer;
+}
+
+.fileHint {
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.avatarPreview {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 2px solid #5183fe;
+}
+
+.infoModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.infoModal {
+  width: min(92vw, 420px);
+  border-radius: 12px;
+  padding: 16px;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.infoModal input {
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.modalActions button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+}
