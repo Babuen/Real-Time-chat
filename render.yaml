@@ -35,7 +35,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://realtime-chat-backend.onrender.com/api
+        value: https://realtime-chat-backend-oing.onrender.com/api
 
 
 databases:
