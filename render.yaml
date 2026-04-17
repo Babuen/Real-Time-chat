@@ -13,9 +13,9 @@ services:
       - key: DJANGO_ALLOWED_HOSTS
         value: realtime-chat-backend.onrender.com,.onrender.com
       - key: CSRF_TRUSTED_ORIGINS
-        value: https://realtime-chat-frontend.onrender.com,https://realtime-chat-backend.onrender.com
+        value: https://realtime-chat-frontend-oodz.onrender.com,https://realtime-chat-backend-oing.onrender.com
       - key: CORS_ALLOWED_ORIGINS
-        value: https://realtime-chat-frontend.onrender.com
+        value: https://realtime-chat-frontend-oodz.onrender.com
       - key: DATABASE_URL
         fromDatabase:
           name: realtime-chat-db
