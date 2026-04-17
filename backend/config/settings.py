@@ -128,6 +128,11 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://.*\.onrender\.com$",
 ]
 
+# Render deploys can use dynamic onrender.com subdomains, so allow CORS
+# broadly in production to avoid origin drift breaking OTP requests.
+if not DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+
 # CSRF settings for production
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()
