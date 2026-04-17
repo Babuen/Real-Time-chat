@@ -32,3 +32,7 @@ backend/media
 !.env.example
 !front/.env.example
 !backend/.env.example
+
+# Python cache
+__pycache__/
+*.pyc

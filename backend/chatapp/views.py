@@ -1,18 +1,22 @@
 import os
+import random
+from datetime import timedelta
 from uuid import uuid4
 
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.core.files.storage import default_storage
 from django.db.models import Q
 from django.utils import timezone
 from rest_framework import permissions, status
+from smtplib import SMTPException
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Chat, ChatParticipant, Message, UserProfile
+from .models import Chat, ChatParticipant, Message, SignupOTP, UserProfile
 from .serializers import (
     ChangePasswordSerializer,
     ChatCreateSerializer,
@@ -20,6 +24,8 @@ from .serializers import (
     MessageCreateSerializer,
     MessageResponseSerializer,
     RegisterSerializer,
+    SignupOTPRequestSerializer,
+    SignupOTPVerifySerializer,
     UpdateProfileSerializer,
     UserResponseSerializer,
 )
@@ -106,6 +112,91 @@ class AuthRegisterView(APIView):
         profile = ensure_profile(user)
         profile.avatar = serializer.validated_data.get("avatar", "")
         profile.save(update_fields=["avatar"])
+
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key, "user": user_payload(user)}, status=status.HTTP_201_CREATED)
+
+
+class AuthSignupOTPRequestView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = SignupOTPRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        username = serializer.validated_data["username"].strip()
+        email = serializer.validated_data["email"]
+
+        otp_code = f"{random.randint(0, 999999):06d}"
+        expiry_minutes = int(os.getenv("SIGNUP_OTP_EXPIRE_MINUTES", "10"))
+        expires_at = timezone.now() + timedelta(minutes=expiry_minutes)
+
+        SignupOTP.objects.filter(email__iexact=email, is_used=False).delete()
+        SignupOTP.objects.create(
+            username=username,
+            email=email,
+            otp_code=otp_code,
+            expires_at=expires_at,
+        )
+
+        subject = "Your OTP for Chat App Signup"
+        message = (
+            f"Hello {username},\n\n"
+            f"Your OTP is: {otp_code}\n"
+            f"This OTP will expire in {expiry_minutes} minutes.\n\n"
+            "If you did not request this, you can ignore this email."
+        )
+
+        from_email = os.getenv("EMAIL_HOST_USER") or "no-reply@chatapp.local"
+        try:
+            send_mail(subject, message, from_email, [email], fail_silently=False)
+        except SMTPException:
+            return Response({"detail": "Failed to send OTP email. Check SMTP settings"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception:
+            return Response({"detail": "Failed to send OTP email. Check SMTP settings"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({"detail": "OTP sent to your email"}, status=status.HTTP_200_OK)
+
+
+class AuthSignupOTPVerifyView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = SignupOTPVerifySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        username = serializer.validated_data["username"].strip()
+        email = serializer.validated_data["email"]
+        otp = serializer.validated_data["otp"]
+        password = serializer.validated_data["password"]
+
+        existing_user = User.objects.filter(Q(username__iexact=username) | Q(email__iexact=email)).exists()
+        if existing_user:
+            return Response({"detail": "User already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
+        otp_record = SignupOTP.objects.filter(email__iexact=email, is_used=False).order_by("-created_at").first()
+        if not otp_record:
+            return Response({"detail": "OTP not found. Please request a new OTP"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if otp_record.expires_at < timezone.now():
+            otp_record.delete()
+            return Response({"detail": "OTP expired. Please request a new OTP"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if otp_record.username.strip().lower() != username.lower():
+            return Response({"detail": "Username does not match OTP request"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if otp_record.otp_code != otp:
+            return Response({"detail": "Invalid OTP"}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+        )
+        ensure_profile(user)
+
+        otp_record.is_used = True
+        otp_record.save(update_fields=["is_used"])
 
         token, _ = Token.objects.get_or_create(user=user)
         return Response({"token": token.key, "user": user_payload(user)}, status=status.HTTP_201_CREATED)

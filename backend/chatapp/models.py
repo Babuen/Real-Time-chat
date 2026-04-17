@@ -12,6 +12,21 @@ class UserProfile(models.Model):
         return f"Profile({self.user.username})"
 
 
+class SignupOTP(models.Model):
+    username = models.CharField(max_length=150)
+    email = models.EmailField(db_index=True)
+    otp_code = models.CharField(max_length=6)
+    expires_at = models.DateTimeField()
+    is_used = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"SignupOTP(email={self.email}, used={self.is_used})"
+
+
 class Chat(models.Model):
     participants = models.ManyToManyField(User, through="ChatParticipant", related_name="chats")
     created_at = models.DateTimeField(auto_now_add=True)

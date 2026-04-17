@@ -6,6 +6,8 @@ from .views import (
     AuthMeView,
     AuthProfileUpdateView,
     AuthRegisterView,
+    AuthSignupOTPRequestView,
+    AuthSignupOTPVerifyView,
     ChatCreateView,
     ChatListView,
     ChatMessagesView,
@@ -17,6 +19,8 @@ from .views import (
 
 urlpatterns = [
     path("auth/register", AuthRegisterView.as_view(), name="auth-register"),
+    path("auth/signup-otp/request", AuthSignupOTPRequestView.as_view(), name="auth-signup-otp-request"),
+    path("auth/signup-otp/verify", AuthSignupOTPVerifyView.as_view(), name="auth-signup-otp-verify"),
     path("auth/login", AuthLoginView.as_view(), name="auth-login"),
     path("auth/me", AuthMeView.as_view(), name="auth-me"),
     path("auth/logout", AuthLogoutView.as_view(), name="auth-logout"),
